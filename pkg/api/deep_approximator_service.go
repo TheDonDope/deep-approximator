@@ -25,7 +25,7 @@ func (impl DeepApproximatorService) Learn() {
 		x := random.Float64()
 		y := random.Float64()
 		learn.Learn(network, []float64{x, y}, []float64{math.Sin(x + y)}, configs.Opts.Speed)
-		if i%100000 == 0 {
+		if i%(configs.Opts.Rounds/10) == 0 {
 			log.Println(fmt.Sprintf("%v / %v (%v %%)", i, configs.Opts.Rounds, percent.PercentOf(i, configs.Opts.Rounds)))
 		}
 	}
