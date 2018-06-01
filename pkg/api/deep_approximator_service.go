@@ -13,38 +13,47 @@ import (
 )
 
 // DeepApproximatorService implements the DeepApproximator interface
-type DeepApproximatorService struct {
-	network *neural.Network
-	random  *rand.Rand
-}
+type DeepApproximatorService struct{}
 
 // Learn starts the learning process of the neural network
 func (impl DeepApproximatorService) Learn() {
-	for i := int64(0); i < configs.Opts.Rounds; i++ {
-		x := impl.random.Float64()
-		y := impl.random.Float64()
-		learn.Learn(impl.network, []float64{x, y}, []float64{math.Sin(x + y)}, configs.Opts.Speed)
+	random := newRandom()
+	network := createNetwork()
+	for i := 0; i < configs.Opts.Rounds; i++ {
+		x := random.Float64()
+		y := random.Float64()
+		learn.Learn(network, []float64{x, y}, []float64{math.Sin(x + y)}, configs.Opts.Speed)
 		fmt.Println(fmt.Sprintf("%v / %v (%v %%)", i, configs.Opts.Rounds, i/configs.Opts.Rounds*100))
 	}
-	persist.ToFile(configs.Opts.Output, impl.network)
+	persist.ToFile(configs.Opts.Output, network)
 }
 
 // Calculate starts the calculation process of the nerual network
 func (impl DeepApproximatorService) Calculate() {
-	x := impl.random.Float64()
-	y := impl.random.Float64()
-	result := impl.network.Calculate([]float64{x, y})
+	random := newRandom()
+	network := createNetwork()
+	x := random.Float64()
+	y := random.Float64()
+	result := network.Calculate([]float64{x, y})
 	idealResult := math.Sin(x + y)
 	fmt.Println(fmt.Sprintf("%v should be: %v", result[0], idealResult))
 }
 
-// InitNetwork initialises the neural network
-func (impl DeepApproximatorService) InitNetwork() {
+func createNetwork() *neural.Network {
+	var network *neural.Network
 	if configs.Opts.Input == "" {
-		impl.network = neural.NewNetwork(2, []int{2, 10, 1})
+		layers := []int{2}
+		for i := 0; i < configs.Opts.HiddenLayers; i++ {
+			layers = append(layers, configs.Opts.Nodes)
+		}
+		layers = append(layers, 1)
+		network = neural.NewNetwork(2, layers)
 	} else {
-		impl.network = persist.FromFile(configs.Opts.Input)
+		network = persist.FromFile(configs.Opts.Input)
 	}
-	source := rand.NewSource(time.Now().UnixNano())
-	impl.random = rand.New(source)
+	return network
+}
+
+func newRandom() *rand.Rand {
+	return rand.New(rand.NewSource(time.Now().UnixNano()))
 }

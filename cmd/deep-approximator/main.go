@@ -15,7 +15,6 @@ func main() {
 	start := time.Now()
 	logs.Printfln("Starting deep-approximator @ %v", start.Format(time.RFC3339))
 	approximatorImpl := &api.DeepApproximatorService{}
-	approximatorImpl.InitNetwork()
 	if configs.Opts.Learn {
 		approximatorImpl.Learn()
 		log.Println("Approximator learned successfully.")
