@@ -1,0 +1,10 @@
+hash: 6afc63c0d9c40f6fdf7813a7d8c5650bb95413be926618f18e0774f7b5b284a5
+updated: 2018-06-01T12:19:59.634824+02:00
+imports:
+- name: github.com/jessevdk/go-flags
+  version: c6ca198ec95c841fdb89fc0de7496fed11ab854e
+- name: github.com/NOX73/go-neural
+  version: f327eff30de74b5b2d18236415bd35a2ee5c4e59
+  subpackages:
+  - persist
+testImports: []
