@@ -2,9 +2,9 @@ package configs
 
 // Opts are the program options, configurable by command line argument
 var Opts struct {
-	Learn string `short:"l" long:"learn" description:"Initiate or continue a learning process. If an input file is given via the -i/--input-file argument the network will continue to learn from a previous trained model. Else a new learning process will be started."`
+	Learn bool `short:"l" long:"learn" description:"Initiate or continue a learning process. If an input file is given via the -i/--input-file argument the network will continue to learn from a previous trained model. Else a new learning process will be started."`
 
-	Calculate string `short:"c" long:"calculate" description:"Execute the trained neural network with the given input parameters. You need to either provide an input file via the -i/--input-file argument or use the -l/--learn parameter to first start a learning process and afterwards do a calculation"`
+	Calculate bool `short:"c" long:"calculate" description:"Execute the trained neural network with the given input parameters. You need to either provide an input file via the -i/--input-file argument or use the -l/--learn parameter to first start a learning process and afterwards do a calculation"`
 
 	Input string `short:"i" long:"input-file" description:"The name of the pretrained model (JSON file) to use."`
 
