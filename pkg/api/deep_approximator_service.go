@@ -10,6 +10,7 @@ import (
 	"github.com/NOX73/go-neural/learn"
 	"github.com/NOX73/go-neural/persist"
 	"github.com/TheDonDope/deep-approximator/pkg/util/configs"
+	"github.com/dariubs/percent"
 )
 
 // DeepApproximatorService implements the DeepApproximator interface
@@ -23,7 +24,7 @@ func (impl DeepApproximatorService) Learn() {
 		x := random.Float64()
 		y := random.Float64()
 		learn.Learn(network, []float64{x, y}, []float64{math.Sin(x + y)}, configs.Opts.Speed)
-		fmt.Println(fmt.Sprintf("%v / %v (%v %%)", i, configs.Opts.Rounds, i/configs.Opts.Rounds*100))
+		fmt.Println(fmt.Sprintf("%v / %v (%v %%)", i, configs.Opts.Rounds, percent.PercentOf(i, configs.Opts.Rounds)))
 	}
 	persist.ToFile(configs.Opts.Output, network)
 }
