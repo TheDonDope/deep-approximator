@@ -5,26 +5,26 @@ import math
 import json
 import sys
 
-results = []
-# with open(str(sys.argv[1])) as f:
-#     results = json.load(f)
+coordinates = []
+with open("coordinates.json") as f:
+    coordinates = json.load(f)
 
-for x in np.arange(-1.0, 1.0, 0.2):
-    for y in np.arange(-1.0, 1.0, 0.2):
-        results.append([x, y, math.sin(x + y)])
+# for x in np.arange(-1.0, 1.0, 0.2):
+#     for y in np.arange(-1.0, 1.0, 0.2):
+#         coordinates.append([x, y, math.sin(x + y)])
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
-for elem in results:
-    x = elem[0]
-    y = elem[1]
-    z1 = elem[2]
-    z2 = math.cos(x + y)
-
+for elem in coordinates:
+    x = elem['x']
+    y = elem['y']
+    z1 = elem['z']
+    # z2 = math.sin(x + y)
+    z2 = x+y
     ax.scatter(x, y, z1, c='b', marker='.')
     ax.scatter(x, y, z2, c='r', marker='*')
-    # ax.plot([x, x], [y, y], zs=[z1, z2], c='b')
+    ax.plot([x, x], [y, y], zs=[z1, z2], c='b')
 
 ax.set_xlabel('X Label')
 ax.set_ylabel('Y Label')
