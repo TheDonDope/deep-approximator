@@ -6,3 +6,5 @@ import:
   subpackages:
   - persist
 - package: github.com/dariubs/percent
+- package: github.com/Knetic/govaluate
+  version: ~3.0.0

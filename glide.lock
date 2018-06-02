@@ -1,10 +1,12 @@
-hash: 1dcbf46afa4097ee2414217eae84b73dc68d9e91893d6d95d7dc0a5f404e1058
-updated: 2018-06-01T20:16:44.185777+02:00
+hash: 5cdef36081f6f45aa44975ea2ef0a9404e7d01ba5a550a099a8c43d8660f84dc
+updated: 2018-06-02T11:35:07.150311512+02:00
 imports:
 - name: github.com/dariubs/percent
   version: 6a210960ed74f0c94ad2c45fb5ba2a49b7fd7b1c
 - name: github.com/jessevdk/go-flags
   version: c6ca198ec95c841fdb89fc0de7496fed11ab854e
+- name: github.com/Knetic/govaluate
+  version: d216395917cc49052c7c7094cf57f09657ca08a8
 - name: github.com/NOX73/go-neural
   version: f327eff30de74b5b2d18236415bd35a2ee5c4e59
   subpackages:

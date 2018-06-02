@@ -17,4 +17,6 @@ var Opts struct {
 	Rounds int `short:"r" long:"rounds" description:"The number of learning iterations (default: 1.000.000)" default:"1000000"`
 
 	Speed float64 `short:"s" long:"speed" description:"The factor to be used to alter the weights of all nodes. (default: 0.1)" default:"0.1"`
+
+	Expression string `short:"e" long:"expression" description:"The expression learned by the neural network. (default: x+y)" default:"x+y"`
 }

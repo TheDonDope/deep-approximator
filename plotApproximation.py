@@ -20,8 +20,8 @@ for elem in coordinates:
     x = elem['x']
     y = elem['y']
     z1 = elem['z']
-    # z2 = math.sin(x + y)
-    z2 = x+y
+    z2 = math.sin(x*x + y)
+    # z2 = math.sin(x-y)
     ax.scatter(x, y, z1, c='b', marker='.')
     ax.scatter(x, y, z2, c='r', marker='*')
     ax.plot([x, x], [y, y], zs=[z1, z2], c='b')

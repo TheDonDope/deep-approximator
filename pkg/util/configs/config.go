@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"github.com/Knetic/govaluate"
 	flags "github.com/jessevdk/go-flags"
 )
 
@@ -10,4 +11,9 @@ func ParseArguments(args []string) {
 	if argsError != nil {
 		panic(argsError)
 	}
+}
+
+// EvaluateExpression evaluates the given expression
+func EvaluateExpression() (*govaluate.EvaluableExpression, error) {
+	return govaluate.NewEvaluableExpression(Opts.Expression)
 }

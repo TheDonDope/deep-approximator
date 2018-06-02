@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math"
 	"math/rand"
 	"time"
 
@@ -24,13 +25,27 @@ type DeepApproximatorService struct{}
 func (impl DeepApproximatorService) Learn() {
 	random := newRandom()
 	network := createNetwork()
+	maxValue := 1.
+	minValue := 0.
 	for i := 0; i < configs.Opts.Rounds; i++ {
-		x := random.Float64()
-		y := random.Float64()
+		x := minValue + random.Float64()*(maxValue-minValue)
+		y := minValue + random.Float64()*(maxValue-minValue)
+
+		expression, err := configs.EvaluateExpression()
+		errors.HandleError(err, fmt.Sprintf("Unable to interpret Expression (-e): %v", err))
+		parameters := make(map[string]interface{}, 8)
+		parameters["x"] = x
+		parameters["y"] = y
+		result, err := expression.Evaluate(parameters)
+		errors.HandleError(err, fmt.Sprintf("Unable to evaluate Expression (-e): %v", err))
+
+		// actual learning process
 		// learn.Learn(network, []float64{x, y}, []float64{math.Sin(x + y)}, configs.Opts.Speed)
-		learn.Learn(network, []float64{x, y}, []float64{downscale(x + y)}, configs.Opts.Speed)
+		learn.Learn(network, []float64{x, y}, []float64{math.Sin(result.(float64))}, configs.Opts.Speed)
+
 		if i%(configs.Opts.Rounds/10) == 0 {
 			log.Println(fmt.Sprintf("%v / %v (%v %%)", i, configs.Opts.Rounds, percent.PercentOf(i, configs.Opts.Rounds)))
+			// log.Println(fmt.Sprintf("math.sin(%v-%v)=%v", x, y, math.Sin(result.(float64))))
 		}
 	}
 	persist.ToFile(configs.Opts.Output, network)
@@ -40,10 +55,14 @@ func (impl DeepApproximatorService) Learn() {
 func (impl DeepApproximatorService) Calculate() {
 	network := createNetwork()
 	coordinates := make([]types.Coordinate, 0)
-	for x := -1.; x <= 1.; x += 0.3 {
-		for y := -1.; y <= 1.; y += 0.3 {
-			z := upscale(network.Calculate([]float64{x, y})[0])
+	maxValue := 1.
+	minValue := 0.
+	step := 0.2
+	for x := minValue; x <= maxValue; x += step {
+		for y := minValue; y <= maxValue; y += step {
+			z := network.Calculate([]float64{x, y})[0]
 			coordinate := types.Coordinate{X: x, Y: y, Z: z}
+			log.Println(coordinate)
 			coordinates = append(coordinates, coordinate)
 		}
 	}
@@ -59,6 +78,7 @@ func createNetwork() *neural.Network {
 		}
 		layers = append(layers, 1)
 		network = neural.NewNetwork(2, layers)
+		network.RandomizeSynapses()
 	} else {
 		network = persist.FromFile(configs.Opts.Input)
 	}
