@@ -2,7 +2,9 @@ package errors
 
 import (
 	"fmt"
-	"log"
+
+	"github.com/TheDonDope/deep-approximator/pkg/util/logs"
+	"go.uber.org/zap"
 )
 
 // GetFormattedErrorMessage returns a formatted error message for the given
@@ -21,6 +23,6 @@ func GetFormattedErrorMessage(errorToHandle error, errorMessage string) string {
 // HandleError handles the given error
 func HandleError(errorToHandle error, errorMessage string) {
 	if errorToHandle != nil {
-		log.Println(GetFormattedErrorMessage(errorToHandle, errorMessage))
+		logs.Logger.Error(GetFormattedErrorMessage(errorToHandle, errorMessage), zap.Any("err", errorToHandle))
 	}
 }

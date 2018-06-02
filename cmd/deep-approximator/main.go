@@ -1,29 +1,32 @@
 package main
 
 import (
-	"log"
 	"os"
 	"time"
 
 	"github.com/TheDonDope/deep-approximator/pkg/api"
 	"github.com/TheDonDope/deep-approximator/pkg/util/configs"
 	"github.com/TheDonDope/deep-approximator/pkg/util/logs"
+	"go.uber.org/zap"
 )
 
 func main() {
 	configs.ParseArguments(os.Args)
-	start := time.Now()
-	logs.Printfln("Starting deep-approximator @ %v", start.Format(time.RFC3339))
+	allStart := time.Now()
+	logs.Logger.Info("Starting deep-approximator", zap.String("allStart", allStart.Format(time.RFC3339)))
 	approximatorImpl := &api.DeepApproximatorService{}
 	if configs.Opts.Learn {
+		learnStart := time.Now()
 		approximatorImpl.Learn()
-		log.Println("Approximator learned successfully.")
+		logs.Logger.Info("Approximator learned successfully.", zap.Duration("learnEnd", time.Since(learnStart)))
 	}
 	if configs.Opts.Calculate {
+		calcStart := time.Now()
 		approximatorImpl.Calculate()
-		log.Println("Approximator calculated successfully.")
+		logs.Logger.Info("Approximator calculated successfully.", zap.Duration("calcEnd", time.Since(calcStart)))
 	}
-	logs.Printfln("Program arguments: %+v", configs.Opts)
-	logs.Printfln("Finishing deep-approximator @ %v", time.Now().Format(time.RFC3339))
-	logs.Printfln("Overall time spent: %v", time.Since(start))
+	allEnd := time.Now()
+	logs.Logger.Info("Program arguments", zap.Any("args", configs.Opts))
+	logs.Logger.Info("Finished deep-approximator", zap.String("allEnd", allEnd.Format(time.RFC3339)))
+	logs.Logger.Info("Overall time spent", zap.Duration("overall", time.Since(allStart)))
 }

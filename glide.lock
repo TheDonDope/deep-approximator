@@ -1,5 +1,5 @@
-hash: 5cdef36081f6f45aa44975ea2ef0a9404e7d01ba5a550a099a8c43d8660f84dc
-updated: 2018-06-02T11:35:07.150311512+02:00
+hash: db16ec7abb7fc3cd26b0904e305eae823376507be2192a358be278567c5b4c70
+updated: 2018-06-02T15:34:25.034113+02:00
 imports:
 - name: github.com/dariubs/percent
   version: 6a210960ed74f0c94ad2c45fb5ba2a49b7fd7b1c
@@ -12,4 +12,16 @@ imports:
   subpackages:
   - learn
   - persist
+- name: go.uber.org/atomic
+  version: 1ea20fb1cbb1cc08cbd0d913a96dead89aa18289
+- name: go.uber.org/multierr
+  version: 3c4937480c32f4c13a875a1829af76c98ca3d40a
+- name: go.uber.org/zap
+  version: eeedf312bc6c57391d84767a4cd413f02a917974
+  subpackages:
+  - buffer
+  - internal/bufferpool
+  - internal/color
+  - internal/exit
+  - zapcore
 testImports: []

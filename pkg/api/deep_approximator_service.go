@@ -3,7 +3,6 @@ package api
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"math"
 	"math/rand"
 	"time"
@@ -15,7 +14,9 @@ import (
 	"github.com/TheDonDope/deep-approximator/pkg/util/configs"
 	"github.com/TheDonDope/deep-approximator/pkg/util/errors"
 	"github.com/TheDonDope/deep-approximator/pkg/util/files"
+	"github.com/TheDonDope/deep-approximator/pkg/util/logs"
 	"github.com/dariubs/percent"
+	"go.uber.org/zap"
 )
 
 // DeepApproximatorService implements the DeepApproximator interface
@@ -44,8 +45,7 @@ func (impl DeepApproximatorService) Learn() {
 		learn.Learn(network, []float64{x, y}, []float64{math.Sin(result.(float64))}, configs.Opts.Speed)
 
 		if i%(configs.Opts.Rounds/10) == 0 {
-			log.Println(fmt.Sprintf("%v / %v (%v %%)", i, configs.Opts.Rounds, percent.PercentOf(i, configs.Opts.Rounds)))
-			// log.Println(fmt.Sprintf("math.sin(%v-%v)=%v", x, y, math.Sin(result.(float64))))
+			logs.Logger.Info("Current progress", zap.Int("curr", i), zap.Int("all", configs.Opts.Rounds), zap.Float64("%", percent.PercentOf(i, configs.Opts.Rounds)))
 		}
 	}
 	persist.ToFile(configs.Opts.Output, network)
@@ -62,7 +62,7 @@ func (impl DeepApproximatorService) Calculate() {
 		for y := minValue; y <= maxValue; y += step {
 			z := network.Calculate([]float64{x, y})[0]
 			coordinate := types.Coordinate{X: x, Y: y, Z: z}
-			log.Println(coordinate)
+			logs.Logger.Info("Current coordinate", zap.Any("coord", coordinate))
 			coordinates = append(coordinates, coordinate)
 		}
 	}

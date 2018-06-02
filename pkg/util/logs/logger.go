@@ -1,11 +1,20 @@
 package logs
 
 import (
-	"fmt"
 	"log"
+
+	"go.uber.org/zap"
 )
 
-// Printfln prints a line with a formatted string.
-func Printfln(format string, a ...interface{}) {
-	log.Println(fmt.Sprintf(format, a))
+// Logger provides the application logger
+var Logger = newLogger()
+
+// NewLogger returns a new Logger
+func newLogger() *zap.Logger {
+	logger, err := zap.NewProduction()
+	if err != nil {
+		log.Fatalf("can't initialize zap logger: %v", err)
+	}
+	defer logger.Sync()
+	return logger
 }
