@@ -26,7 +26,7 @@ type DeepApproximatorService struct{}
 func (impl DeepApproximatorService) Learn() {
 	random := newRandom()
 	network := createNetwork()
-	maxValue := 1.
+	maxValue := 2.
 	minValue := 0.
 	for i := 0; i < configs.Opts.Rounds; i++ {
 		x := minValue + random.Float64()*(maxValue-minValue)
@@ -42,10 +42,11 @@ func (impl DeepApproximatorService) Learn() {
 
 		// actual learning process
 		// learn.Learn(network, []float64{x, y}, []float64{math.Sin(x + y)}, configs.Opts.Speed)
-		learn.Learn(network, []float64{x, y}, []float64{math.Sin(result.(float64))}, configs.Opts.Speed)
+		learn.Learn(network, []float64{x, y}, []float64{downscale(math.Sin(math.Abs(math.Sin(result.(float64)))))}, configs.Opts.Speed)
 
 		if i%(configs.Opts.Rounds/10) == 0 {
-			logs.Logger.Info("Current progress", zap.Int("curr", i), zap.Int("all", configs.Opts.Rounds), zap.Float64("%", percent.PercentOf(i, configs.Opts.Rounds)))
+			// logs.Logger.Info("Current progress", zap.Int("curr", i), zap.Int("all", configs.Opts.Rounds), zap.Float64("%", percent.PercentOf(i, configs.Opts.Rounds)))
+			logs.Logger.Info("Current progress", zap.Float64("%", percent.PercentOf(i, configs.Opts.Rounds)))
 		}
 	}
 	persist.ToFile(configs.Opts.Output, network)
@@ -55,14 +56,14 @@ func (impl DeepApproximatorService) Learn() {
 func (impl DeepApproximatorService) Calculate() {
 	network := createNetwork()
 	coordinates := make([]types.Coordinate, 0)
-	maxValue := 1.
+	maxValue := 2.
 	minValue := 0.
-	step := 0.2
+	step := maxValue / 10.
 	for x := minValue; x <= maxValue; x += step {
 		for y := minValue; y <= maxValue; y += step {
-			z := network.Calculate([]float64{x, y})[0]
+			z := upscale(network.Calculate([]float64{x, y})[0])
 			coordinate := types.Coordinate{X: x, Y: y, Z: z}
-			logs.Logger.Info("Current coordinate", zap.Any("coord", coordinate))
+			// logs.Logger.Info("Current coordinate", zap.Any("coord", coordinate))
 			coordinates = append(coordinates, coordinate)
 		}
 	}
@@ -96,9 +97,9 @@ func persistCoordinatesToJSON(coordinates []types.Coordinate) {
 }
 
 func downscale(number float64) float64 {
-	return number / 1000.
+	return number / 10.
 }
 
 func upscale(number float64) float64 {
-	return number * 1000.
+	return number * 10.
 }
