@@ -3,7 +3,7 @@ package errors
 import (
 	"fmt"
 
-	"github.com/TheDonDope/deep-approximator/pkg/util/logs"
+	"gitlab.com/TheDonDope/deep-approximator/pkg/util/logs"
 	"go.uber.org/zap"
 )
 

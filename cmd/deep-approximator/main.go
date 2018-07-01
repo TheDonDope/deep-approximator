@@ -4,9 +4,9 @@ import (
 	"os"
 	"time"
 
-	"github.com/TheDonDope/deep-approximator/pkg/api"
-	"github.com/TheDonDope/deep-approximator/pkg/util/configs"
-	"github.com/TheDonDope/deep-approximator/pkg/util/logs"
+	"gitlab.com/TheDonDope/deep-approximator/pkg/api"
+	"gitlab.com/TheDonDope/deep-approximator/pkg/util/configs"
+	"gitlab.com/TheDonDope/deep-approximator/pkg/util/logs"
 	"go.uber.org/zap"
 )
 

@@ -1,4 +1,4 @@
-package: github.com/TheDonDope/deep-approximator
+package: gitlab.com/TheDonDope/deep-approximator
 import:
 - package: github.com/jessevdk/go-flags
   version: ^1.4.0
