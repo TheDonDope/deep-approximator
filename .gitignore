@@ -229,5 +229,8 @@ $RECYCLE.BIN/
 .vscode/*
 result*
 coordinates.json
-deep-approximator
-!/deep-approximator/**
+
+# compiled output
+/bin
+/dist
+/tmp
