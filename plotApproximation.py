@@ -63,7 +63,7 @@ if __name__ == '__main__':
             try:
                 execCmd(cmd)
             except KeyboardInterrupt:
-                print 'Interrupted'
+                print('Interrupted')
                 try:
                     sys.exit(0)
                 except SystemExit:
@@ -83,7 +83,7 @@ if __name__ == '__main__':
                 try:
                     execCmd(cmd)
                 except KeyboardInterrupt:
-                    print 'Interrupted'
+                    print('Interrupted')
                     try:
                         sys.exit(0)
                     except SystemExit:
