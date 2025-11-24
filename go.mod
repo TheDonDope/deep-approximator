@@ -7,7 +7,7 @@ require (
 	github.com/NOX73/go-neural v0.0.0-20190108071031-7635e7661e9b
 	github.com/dariubs/percent v1.0.0
 	github.com/jessevdk/go-flags v1.6.1
-	go.uber.org/zap v1.27.0
+	go.uber.org/zap v1.27.1
 )
 
 require (
