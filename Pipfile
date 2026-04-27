@@ -6,7 +6,7 @@ name = "pypi"
 [dev-packages]
 
 [packages]
-matplotlib = ">=3.8,<4.0"
+matplotlib = ">=3.10.9,<4.0"
 numpy = ">=1.26,<3.0"
 
 [requires]
