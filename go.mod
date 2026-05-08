@@ -1,6 +1,6 @@
 module gitlab.com/TheDonDope/deep-approximator
 
-go 1.24.2
+go 1.26.3
 
 require (
 	github.com/Knetic/govaluate v3.0.0+incompatible
