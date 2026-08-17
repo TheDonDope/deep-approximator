@@ -7,7 +7,7 @@ name = "pypi"
 
 [packages]
 matplotlib = ">=3.10.9,<4.0"
-numpy = ">=2.4.5,<3.0"
+numpy = ">=2.5.2,<3.0"
 
 [requires]
 python_version = "3.13"
